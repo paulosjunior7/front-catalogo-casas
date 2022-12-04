@@ -6,12 +6,9 @@ import Loading from "src/feed/loading";
 
 const client = new ApolloClient({
   ssrMode: true,
-  uri: process.env.,
+  uri: process.env.API_URL,
   cache: new InMemoryCache(),
 });
-
-REACT-APP-GRAPHQL-URL=https://sa-east-1.cdn.hygraph.com/content/clb8qwtkx1jxo01uk5j411lhg/master
-
 
 function MyApp({ Component, pageProps }) {
   return (
