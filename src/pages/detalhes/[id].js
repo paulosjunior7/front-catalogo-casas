@@ -4,12 +4,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar } from 'swiper';
 import { FaShower, FaBed } from 'react-icons/fa';
 import { BiArea, BiCheck, BiMailSend } from 'react-icons/bi';
-import { BiArrowBack } from 'react-icons/bi'
+import { BiArrowBack, BiCalendar } from 'react-icons/bi'
 import { BsFillHouseFill } from 'react-icons/bs';
 import { ImWhatsapp } from 'react-icons/im';
 import { useQuery, gql } from '@apollo/client';
 import { isMobile } from "react-device-detect";
 import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -32,6 +34,8 @@ query DetalheResidencia($id: ID!) {
     titulo
     updatedAt
     valor
+    dataConclusao
+    statusObra
       detalhes {
       ... on DetalhesResidencia {
         id
@@ -40,6 +44,13 @@ query DetalheResidencia($id: ID!) {
     }
     createdAt
     publishedAt
+    statusUnidadeResidencial {
+      ... on UnidadeResidencial {
+        id
+        descricao
+        statusUnidadeResidencial
+      }
+    }
     imagens {
       ... on Imagem {
         id
@@ -72,16 +83,16 @@ export default function Detalhes() {
   if (loading) {
     return (
       <div>
-          <div className="flex w-full flex-1 flex-col items-center  px-20">
-        <div className="mt-12 w-1/2 animate-pulse flex-row items-center justify-center space-x-1 rounded-xl border p-6 ">
-          <div className="flex flex-col space-y-2">
-            <div className="h-6 w-11/12 rounded-md bg-gray-300 "></div>
-            <div className="h-6 w-10/12 rounded-md bg-gray-300 "></div>
-            <div className="h-6 w-9/12 rounded-md bg-gray-300 "></div>
-            <div className="h-6 w-9/12 rounded-md bg-gray-300 "></div>
+        <div className="flex w-full flex-1 flex-col items-center  px-20">
+          <div className="mt-12 w-1/2 animate-pulse flex-row items-center justify-center space-x-1 rounded-xl border p-6 ">
+            <div className="flex flex-col space-y-2">
+              <div className="h-6 w-11/12 rounded-md bg-gray-300 "></div>
+              <div className="h-6 w-10/12 rounded-md bg-gray-300 "></div>
+              <div className="h-6 w-9/12 rounded-md bg-gray-300 "></div>
+              <div className="h-6 w-9/12 rounded-md bg-gray-300 "></div>
+            </div>
           </div>
         </div>
-      </div>  
       </div>
     )
   }
@@ -130,20 +141,30 @@ export default function Detalhes() {
               ))
             }
 
+            <span className='font-sm font-sans flex  items-center'>
+              <BiCalendar size={20} className="mr-2" />
+              {format(new Date(data?.residencia?.dataConclusao), 'MMMM/yyyy', { locale: ptBR })}
+            </span>
+
             <span className='mt-2 md:mt-4 lg:mt-4 text-3xl font-bold flex items-center w-full justify-center'>
               {`${data?.residencia?.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
                 }`}
             </span>
             <div className='flex items-center mb-2 justify-center'>
-              <span className='flex items-center mr-4'>
-                <BsFillHouseFill size={20} className="mr-2 fill-green-700" />
-                Casa 1 disponível
-              </span>
-
-              <span className='flex items-center'>
-                <BsFillHouseFill size={20} className="mr-2 fill-red-600" />
-                Casa 2 vendida
-              </span>
+              {
+                data?.residencia?.statusUnidadeResidencial?.map((item) => (
+                  item?.statusUnidadeResidencial == 'vendida' ?
+                    <span className='flex items-center mr-4'>
+                      <BsFillHouseFill size={15} className="mr-2 fill-red-600" />
+                      {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
+                    </span>
+                    :
+                    <span className='flex items-center mr-4'>
+                      <BsFillHouseFill size={15} className="mr-2 fill-green-700" />
+                      {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
+                    </span>
+                ))
+              }
             </div>
 
             {isMobile ?
