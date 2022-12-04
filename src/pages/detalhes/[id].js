@@ -154,13 +154,13 @@ export default function Detalhes() {
               {
                 data?.residencia?.statusUnidadeResidencial?.map((item) => (
                   item?.statusUnidadeResidencial == 'vendida' ?
-                    <span className='flex items-center mr-4'>
+                    <span className='flex items-center mr-4' key={item?.id}>
                       <BsFillHouseFill size={15} className="mr-2 fill-red-600" />
                       {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                     </span>
                     :
                     <span className='flex items-center mr-4'>
-                      <BsFillHouseFill size={15} className="mr-2 fill-green-700" />
+                      <BsFillHouseFill size={15} className="mr-2 fill-green-700" key={item?.id} />
                       {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                     </span>
                 ))
