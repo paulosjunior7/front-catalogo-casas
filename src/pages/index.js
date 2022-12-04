@@ -130,7 +130,7 @@ export default function Home() {
 
   return (
     <>
-      <header className='h-auto p-1 w-full items-center flex bg-slate-50 py-1 justify-between px-0 lg:px-24 md:px-24'>
+      <header className='h-auto p-1 w-full items-center flex  py-1 justify-between px-0 lg:px-24 md:px-24'>
         <Image
           src={LogoSVG}
           alt="Picture of the author"
@@ -139,7 +139,7 @@ export default function Home() {
         <h4 className='w-auto md:text-4xl lg:text-4xl text-1xl font-bold text-blue-900'>Catálogo de Imóveis à venda</h4>
         <span className='w-[70px] lg:w-[170px] md:w-[170px]'></span>
       </header>
-      <div className='container bg-slate-50'>
+      <div className='container '>
         <div className="px-4 lg:px-24 md:px-8 py-4 lg:py-2 md:py-2 ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {data?.residencias?.map((item) =>
