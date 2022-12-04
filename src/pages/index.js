@@ -84,17 +84,17 @@ export default function Home() {
                 {`${item?.bairro}, ${item?.cidade}`}
               </a>
             </div>
-            
+
             {
               item?.statusUnidadeResidencial?.map((item) => (
 
                 item?.statusUnidadeResidencial == 'vendida' ?
-                  <span className='flex items-center'>
+                  <span className='flex items-center' key={item?.id}>
                     <BsFillHouseFill size={15} className="mr-2 fill-red-600" />
                     {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                   </span>
                   :
-                  <span className='flex items-center'>
+                  <span className='flex items-center' key={item?.id}>
                     <BsFillHouseFill size={15} className="mr-2 fill-green-700" />
                     {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                   </span>

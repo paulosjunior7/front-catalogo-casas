@@ -159,8 +159,8 @@ export default function Detalhes() {
                       {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                     </span>
                     :
-                    <span className='flex items-center mr-4'>
-                      <BsFillHouseFill size={15} className="mr-2 fill-green-700" key={item?.id} />
+                    <span className='flex items-center mr-4' key={item?.id}>
+                      <BsFillHouseFill size={15} className="mr-2 fill-green-700"  />
                       {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
                     </span>
                 ))
