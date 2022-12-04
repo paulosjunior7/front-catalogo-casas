@@ -149,7 +149,7 @@ export default function Home() {
         </div >
       </div>
 
-      <header className='h-12 p-0 w-full bg-zinc-100'>
+      <header className='h-12 p-0 w-full'>
 
       </header>
     </>
