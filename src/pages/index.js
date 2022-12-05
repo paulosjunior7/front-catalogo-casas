@@ -142,7 +142,7 @@ export default function Home() {
     <>
       {/* <div className='bg-red-600 sm:bg-green-400 md:bg-blue-500 lg:bg-amber-500 xl:bg-amber-400 w-full h-6'></div> */}
 
-      <div className='container bg-slate-50'>
+      <div className='bg-slate-50 h-screen w-full'>
         <header className='h-auto p-1 w-full items-center flex  py-1 justify-between px-0 lg:px-24 md:px-24'>
           <Image
             src={LogoSVG}
@@ -160,10 +160,6 @@ export default function Home() {
           </div >
         </div >
       </div>
-
-      <header className='h-12 p-0 w-full'>
-
-      </header>
     </>
   )
 }

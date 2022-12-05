@@ -203,7 +203,7 @@ export default function Detalhes() {
                 Juliana
             </ReactWhatsapp>
             <ReactWhatsapp number="5562983002211" message={`Olá, Gostaria de mais informações das casas disponiveis para venda`} 
-            className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full  mr-0 lg:mr-2 md:mr-2 justify-center h-10">
+            className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full justify-center h-10">
                 <ImWhatsapp size={15} className='mr-2' />
                 Antonio carlos
             </ReactWhatsapp>
@@ -213,10 +213,8 @@ export default function Detalhes() {
               Entre em contato para agendar uma visita!
             </a>
           </div>
-
+          <div className='w-ful h-10 items-center flex justify-center mt-2' />
         </div>
-
-
       </div>
     </div>
   )
