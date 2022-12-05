@@ -59,19 +59,19 @@ export default function Home() {
   const Card = ({ item }) => {
 
     return (
-      <div className='w-auto h-auto border p-1 shadow-lg relative cursor-pointer bg-white rounded-md' onClick={() => push(`detalhes/${item?.id}`)}>
+      <div className='w-auto border p-1 h-auto lg:h-[26rem] xl:h-[26rem] shadow-lg relative cursor-pointer bg-white rounded-md' onClick={() => push(`detalhes/${item?.id}`)}>
         <Image
           src={item?.imagens[0]?.arquivo?.url}
           alt="Picture of the author"
           width={500}
           height={500}
-          className="object-cover h-[50%] rounded-md"
+          className="object-cover min-h-3/6 h-3/6 rounded-md w-full"
         />
-        <div className='flex h-[50%]  flex-col text-sm justify-between '>
-          <div className='flex justify-between flex-col h-full p-2'>
+        <div className='flex  flex-col text-sm h-3/6'>
+          <div className='flex flex-col h-full p-2'>
             <div className='flex w-full'>
-              <p className='text-base font-bold text-blue-900'>
-                {item?.titulo}
+              <p className='text-lg font-bold text-blue-900'>
+                {item?.titulo.toUpperCase()}
               </p>
             </div>
             <div className='flex w-full'>
@@ -85,27 +85,29 @@ export default function Home() {
               </a>
             </div>
 
-            {
-              item?.statusUnidadeResidencial?.map((item) => (
+            <div className='flex w-full flex-col'>
+              {
+                item?.statusUnidadeResidencial?.map((item) => (
 
-                item?.statusUnidadeResidencial == 'vendida' ?
-                  <span className='flex items-center' key={item?.id}>
-                    <BsFillHouseFill size={15} className="mr-2 fill-red-600" />
-                    {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
-                  </span>
-                  :
-                  <span className='flex items-center' key={item?.id}>
-                    <BsFillHouseFill size={15} className="mr-2 fill-green-700" />
-                    {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
-                  </span>
-              ))
-            }
+                  item?.statusUnidadeResidencial == 'vendida' ?
+                    <span className='flex items-center' key={item?.id}>
+                      <BsFillHouseFill size={15} className="mr-2 fill-red-600" />
+                      {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
+                    </span>
+                    :
+                    <span className='flex items-center' key={item?.id}>
+                      <BsFillHouseFill size={15} className="mr-2 fill-green-700" />
+                      {`${item?.descricao} (${item?.statusUnidadeResidencial})`}
+                    </span>
+                ))
+              }
+            </div>
 
             <span className='font-sm font-sans flex  items-center'>
               <BiCalendar size={15} className="mr-2" />
               {format(new Date(item?.dataConclusao), 'MMMM/yyyy', { locale: ptBR })}
             </span>
-            <span className='text-base font-bold'>{item?.valor?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            <span className='text-lg sm:text-lg font-bold'>{item?.valor?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
           </div>
 
           {item?.statusObra == 'construcao' ? <span className='text-blue-800 text-xs font-bold items-center mt-2 justify-center flex w-full h-6 shadow-lg dark:bg-blue-200 dark:text-blue-800 absolute left-0 top-0'>
@@ -119,7 +121,7 @@ export default function Home() {
               </span>
           )}
 
-          <span className='border-blue-500 border text-white text-xs font-bold items-center justify-center flex w-full h-12 rounded-md shadow-l cursor-pointer hover:bg-blue-400 bg-blue-500'>
+          <span className='border-blue-500 border text-white text-xs font-bold items-center justify-center flex w-full h-12 sm:h-12 md:h-10 lg:h-10 xl:h-10 rounded-md shadow-l cursor-pointer hover:bg-blue-400 bg-blue-500'>
             <a>Mais detalhes</a>
             <HiOutlineArrowSmRight size={20} className="mr-1 stroke-white fill-white text-white" />
           </span>
@@ -128,20 +130,30 @@ export default function Home() {
     )
   }
 
+  if (loading) {
+    return (
+      <div className="flex w-full bg-teal-600 h-screen justify-center items-center">
+        <h1 className="text-lg text-white animate-pulse">carregando...</h1>
+      </div>
+    )
+  }
+
   return (
     <>
-      <header className='h-auto p-1 w-full items-center flex  py-1 justify-between px-0 lg:px-24 md:px-24'>
-        <Image
-          src={LogoSVG}
-          alt="Picture of the author"
-          className='w-[90px] md:w-[170px] lg:w-[170px]'
-        />
-        <h4 className='w-auto md:text-4xl lg:text-4xl text-1xl font-bold text-blue-900'>Catálogo de Imóveis à venda</h4>
-        <span className='w-[70px] lg:w-[170px] md:w-[170px]'></span>
-      </header>
-      <div className='container '>
-        <div className="px-4 lg:px-24 md:px-8 py-4 lg:py-2 md:py-2 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* <div className='bg-red-600 sm:bg-green-400 md:bg-blue-500 lg:bg-amber-500 xl:bg-amber-400 w-full h-6'></div> */}
+
+      <div className='container bg-slate-50'>
+        <header className='h-auto p-1 w-full items-center flex  py-1 justify-between px-0 lg:px-24 md:px-24'>
+          <Image
+            src={LogoSVG}
+            alt="Picture of the author"
+            className='w-[90px] md:w-[170px] lg:w-[170px]'
+          />
+          <h4 className='w-auto text-lg sm:text-lg md:text-4xl lg:text-4xl  font-bold text-blue-900'>Catálogo de Imóveis à venda</h4>
+          <span className='w-[70px] lg:w-[170px] md:w-[170px]'></span>
+        </header>
+        <div className="px-4 sm:px-12 md:px-8 lg:px-12 xl:px-32 py-4 lg:py-2 md:py-2 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-2 md:gap-2 lg:gap-4 xl:gap-4 ">
             {data?.residencias?.map((item) =>
               <Card key={item?.id} item={item} />
             )}
