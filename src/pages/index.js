@@ -107,16 +107,16 @@ export default function Home() {
               <BiCalendar size={15} className="mr-2" />
               {format(new Date(item?.dataConclusao), 'MMMM/yyyy', { locale: ptBR })}
             </span>
-            <span className='text-lg sm:text-lg font-bold'>{item?.valor?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            <span className='text-lg font-bold text-green-700'>{item?.valor?.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
           </div>
 
-          {item?.statusObra == 'construcao' ? <span className='text-blue-800 text-xs font-bold items-center mt-2 justify-center flex w-full h-6 shadow-lg dark:bg-blue-200 dark:text-blue-800 absolute left-0 top-0'>
+          {item?.statusObra == 'construcao' ? <span className='text-xs font-bold items-center mt-2 justify-center flex w-full h-6 shadow-lg bg-blue-200 text-blue-800 absolute left-0 top-0'>
             <a>EM CONSTRUÇÃO</a>
           </span> : (
-            item?.statusObra == 'concluida' ? <span className='text-blue-800 text-xs font-bold items-center mt-2 justify-center flex w-full h-6 dark:bg-green-200 dark:text-green-800 absolute left-0 top-0'>
+            item?.statusObra == 'concluida' ? <span className='text-xs font-bold items-center mt-2 justify-center flex w-full h-6 bg-green-200 text-green-800 absolute left-0 top-0'>
               <a>CONCLUIDA</a>
             </span> :
-              <span className='text-blue-800 text-xs font-bold items-center mt-2 justify-center flex w-full h-6 dark:bg-red-200 dark:text-red-800 absolute left-0 top-0'>
+              <span className='text-xs font-bold items-center mt-2 justify-center flex w-full h-6 bg-red-200 text-red-800 absolute left-0 top-0'>
                 <a>VENDIDA</a>
               </span>
           )}
@@ -132,7 +132,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex w-full bg-teal-600 h-screen justify-center items-center">
+      <div className="flex w-full bg-blue-400 h-screen justify-center items-center">
         <h1 className="text-lg text-white animate-pulse">carregando...</h1>
       </div>
     )
