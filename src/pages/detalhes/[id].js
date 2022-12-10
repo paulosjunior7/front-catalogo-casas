@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar } from 'swiper';
 import { FaShower, FaBed } from 'react-icons/fa';
-import { BiArea, BiCheck, BiMailSend } from 'react-icons/bi';
+import { BiArea, BiCheck, BiDownload } from 'react-icons/bi';
 import { BiArrowBack, BiCalendar } from 'react-icons/bi'
 import { BsFillHouseFill } from 'react-icons/bs';
 import { ImWhatsapp } from 'react-icons/im';
@@ -52,7 +52,7 @@ query DetalheResidencia($id: ID!) {
         statusUnidadeResidencial
       }
     }
-    imagens {
+    imagens(first: 100) {
       ... on Imagem {
         id
         descricao
@@ -89,11 +89,25 @@ export default function Detalhes() {
     )
   }
 
+  const fileDownloadHandler = async () => {
+    for (var i = 0; i < data?.residencia?.imagens?.length; i++) {
+      const response = await fetch(data?.residencia?.imagens[i]?.arquivo?.url);
+      response.blob().then(blob => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = `${data?.residencia?.imagens[i]?.descricao}.jpeg`;
+        a.click();
+      });
+    }
+  }
+
   return (
     <div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 divide-y sm:divide-y md:divide-y lg:divide-x xl:divide-x">
         <div className="w-full md:h-auto lg:h-auto p-4 md:px-14 lg:p-8">
+
           <div className='flex w-full justify-between'>
             <span className='flex items-center cursor-pointer' onClick={() => push('/')}>
               <BiArrowBack size={25} />
@@ -110,6 +124,11 @@ export default function Detalhes() {
               ${data?.residencia?.bairro}, ${data?.residencia?.cidade}`}
             </a>
           </div>
+          {/* <div className='flex w-full justify-evenly items-center h-8 bg-red-500 mb-4 text-white font-bold'>
+            <span className="flex text-sm items-center">
+              VENDIDA
+            </span>
+          </div> */}
           <div className='flex w-full justify-evenly items-center h-11 bg-zinc-200 mb-4'>
             <span className="flex text-sm items-center">
               <BiArea size={22} className="mr-2" />
@@ -124,6 +143,8 @@ export default function Detalhes() {
               {`${data?.residencia?.banheiros} ${data?.residencia?.banheiros == 1 ? 'banheiro' : 'banheiros'}`}
             </span>
           </div>
+
+
           <div className='flex flex-col text'>
 
             {
@@ -160,6 +181,7 @@ export default function Detalhes() {
                 ))
               }
             </div>
+
           </div>
         </div>
         <div className='p-4 md:px-14 lg:p-4'>
@@ -192,20 +214,20 @@ export default function Detalhes() {
             </Swiper>
           </div>
 
-          {/* <button type="button" className="bg-red-500 flex items-center text-white text-sm font-medium py-2 px-3 rounded-lg  mr-0 justify-center w-full h-10 mt-2 ">
-            <BiMailSend size={18} className='mr-2' />
-            Enviar as fotos para seu e-mail
-          </button> */}
+          <button type="button"  onClick={() => fileDownloadHandler()} className="bg-blue-500 flex items-center text-white text-sm font-medium py-2 px-3 rounded-lg  mr-0 justify-center w-full h-10 mt-2 ">
+            <BiDownload size={22} className='mr-2' />
+            Faça o download das fotos
+          </button>
           <div className='mt-2 flex justify-center items-center '>
             <ReactWhatsapp number="5562983002211" message={`Olá, Gostaria de mais informações das casas disponiveis para venda`}
-            className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full  mr-2 lg:mr-2 md:mr-2 justify-center h-10">
-                <ImWhatsapp size={15} className='mr-2' />
-                Juliana
+              className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full  mr-2 lg:mr-2 md:mr-2 justify-center h-10">
+              <ImWhatsapp size={15} className='mr-2' />
+              Juliana
             </ReactWhatsapp>
-            <ReactWhatsapp number="5562983002211" message={`Olá, Gostaria de mais informações das casas disponiveis para venda`} 
-            className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full justify-center h-10">
-                <ImWhatsapp size={15} className='mr-2' />
-                Antonio carlos
+            <ReactWhatsapp number="5562983002211" message={`Olá, Gostaria de mais informações das casas disponiveis para venda`}
+              className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full justify-center h-10">
+              <ImWhatsapp size={15} className='mr-2' />
+              Antonio carlos
             </ReactWhatsapp>
           </div>
           <div className='w-full bg-gray-200 h-10 items-center flex justify-center mt-2'>
