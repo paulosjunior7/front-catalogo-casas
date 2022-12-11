@@ -21,7 +21,7 @@ export default function Home() {
 
   const queryResidencia = gql`
     query Residencias {
-      residencias {
+      residencias(orderBy: statusObra_ASC) {
         titulo
         id
         cidade
