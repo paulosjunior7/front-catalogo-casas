@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import LogoSVG from '../assests/logo.svg'
+import Device from 'src/components/Device';
 
 export default function Home() {
   const { push } = useRouter();
@@ -141,7 +142,7 @@ export default function Home() {
   return (
     <>
       {/* <div className='bg-red-600 sm:bg-green-400 md:bg-blue-500 lg:bg-amber-500 xl:bg-amber-400 w-full h-6'></div> */}
-
+      <Device />
       <div className='bg-slate-50 h-screen w-full'>
         <header className='h-auto p-1 w-full items-center flex  py-1 justify-between px-0 lg:px-24 md:px-24'>
           <Image

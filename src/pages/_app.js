@@ -6,7 +6,7 @@ import Loading from "src/feed/loading";
 
 const client = new ApolloClient({
   ssrMode: true,
-  uri: 'https://sa-east-1.cdn.hygraph.com/content/clb8qwtkx1jxo01uk5j411lhg/master',
+  uri: 'https://api-sa-east-1.hygraph.com/v2/clb8qwtkx1jxo01uk5j411lhg/master',
   //process.env.API_URL,
   cache: new InMemoryCache(),
 });

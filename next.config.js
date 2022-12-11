@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: ['www.jms.eng.br', 'media.graphassets.com', 'https://app.hygraph.com/'],
   },

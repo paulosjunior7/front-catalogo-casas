@@ -8,8 +8,6 @@ import { BiArrowBack, BiCalendar } from 'react-icons/bi'
 import { BsFillHouseFill } from 'react-icons/bs';
 import { ImWhatsapp } from 'react-icons/im';
 import { useQuery, gql } from '@apollo/client';
-import { isMobile, isTablet, isDesktop } from "react-device-detect";
-import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import ReactWhatsapp from 'react-whatsapp';
@@ -18,6 +16,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import "swiper/css/zoom";
+import { isIOS } from 'react-device-detect';
 
 const queryResidencia = gql`
 
@@ -70,6 +69,8 @@ query DetalheResidencia($id: ID!) {
 }
 `;
 
+
+
 export default function Detalhes() {
   const { query, push } = useRouter();
 
@@ -89,22 +90,36 @@ export default function Detalhes() {
     )
   }
 
-  const fileDownloadHandler = async () => {
-    for (var i = 0; i < data?.residencia?.imagens?.length; i++) {
-      const response = await fetch(data?.residencia?.imagens[i]?.arquivo?.url);
-      response.blob().then(blob => {
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = `${data?.residencia?.imagens[i]?.descricao}.jpeg`;
-        a.click();
+  const download = async () => {
+    await data?.residencia?.imagens?.map(async imagem => {
+      let url = '';
+      await fetch(imagem?.arquivo?.url).then((response) => {
+        setTimeout(() => {
+          response.blob().then(blob => {
+            url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `${imagem?.descricao?.toUpperCase()}.jpeg`;
+            a.click();
+          });
+        }, 1000)
       });
+
+    })
+  }
+
+
+
+  const fileDownloadHandler = async () => {
+    if (isIOS) {
+
+    } else {
+      download();
     }
   }
 
   return (
     <div>
-
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 divide-y sm:divide-y md:divide-y lg:divide-x xl:divide-x">
         <div className="w-full md:h-auto lg:h-auto p-4 md:px-14 lg:p-8">
 
@@ -124,11 +139,11 @@ export default function Detalhes() {
               ${data?.residencia?.bairro}, ${data?.residencia?.cidade}`}
             </a>
           </div>
-          {/* <div className='flex w-full justify-evenly items-center h-8 bg-red-500 mb-4 text-white font-bold'>
+          {data?.residencia?.statusObra == 'vendida' && <div className='flex w-full justify-evenly items-center h-8 bg-red-500 mb-4 text-white font-bold'>
             <span className="flex text-sm items-center">
               VENDIDA
             </span>
-          </div> */}
+          </div>}
           <div className='flex w-full justify-evenly items-center h-11 bg-zinc-200 mb-4'>
             <span className="flex text-sm items-center">
               <BiArea size={22} className="mr-2" />
@@ -213,11 +228,11 @@ export default function Detalhes() {
               ))}
             </Swiper>
           </div>
-
-          <button type="button"  onClick={() => fileDownloadHandler()} className="bg-blue-500 flex items-center text-white text-sm font-medium py-2 px-3 rounded-lg  mr-0 justify-center w-full h-10 mt-2 ">
-            <BiDownload size={22} className='mr-2' />
-            Faça o download das fotos
-          </button>
+          {!isIOS &&
+            <button type="button" onClick={() => fileDownloadHandler()} className="bg-blue-500 flex items-center text-white text-sm font-medium py-2 px-3 rounded-lg  mr-0 justify-center w-full h-10 mt-2 ">
+              <BiDownload size={22} className='mr-2' />
+              Faça o download das fotos
+            </button>}
           <div className='mt-2 flex justify-center items-center '>
             <ReactWhatsapp number="5562983002211" message={`Olá, Gostaria de mais informações das casas disponiveis para venda`}
               className="bg-green-500 flex items-center text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg w-full  mr-2 lg:mr-2 md:mr-2 justify-center h-10">
