@@ -31,13 +31,13 @@ export function Device() {
       if (!loading) {
         switch (true) {
           case isBrowser:
-            device = 'Browser' + browserName;
+            device = 'Browser ' + browserName;
             break;
           case isMobile:
-            device = 'Mobile' + mobileModel;
+            device = 'Mobile ' + mobileModel;
             break;
           case isTablet:
-            device = 'Tablet';
+            device = 'Tablet ';
             break;
           default:
             device = 'no detected';
